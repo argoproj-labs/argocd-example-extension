@@ -7,7 +7,7 @@
     "react": "^16.9.0"
   },
   "scripts": {
-    "build": "webpack --config ./webpack.config.js && tar -cvf dist/extension.tar dist/extension"
+    "build": "webpack --config ./webpack.config.js && tar -C dist -cvf dist/extension.tar resources"
   },
   "devDependencies": {
     "@types/react": "^16.9.0",
