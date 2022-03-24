@@ -1,10 +1,12 @@
 import * as React from 'react';
 
-export const Extension = (props: {
-  tree: any;
-  resource: any;
-}) => (
-  <div>Hello {props.resource.metadata.name}!</div>
-);
-
-export const component = Extension;
+export const helloButton = {
+    type: 'apptoolbar',
+    factory: () => ({
+        iconClassName: 'fa fa-info-circle',
+        title: <>Hello</>,
+        action: () => {
+            alert("hello!")
+        }
+    })
+}
