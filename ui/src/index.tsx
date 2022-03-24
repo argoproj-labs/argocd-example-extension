@@ -15,12 +15,21 @@ const HelloButton = () => {
 }
 
 export const helloButton = {
-    type: 'apptoolbar',
-    factory: () => ({
+    type: 'appToolbar',
+    factory: ({state, setState}: { state: any, setState: (value: any) => void }) => ({
         iconClassName: 'fa fa-info-circle',
         title: <HelloButton/>,
-        action: () => {
-            alert("hello!")
-        }
+        action: () => setState({shown: true})
+    })
+}
+
+export const helloPanel = {
+    type: 'appPanel',
+    factory: ({state, setState}: { state: any, setState: (value: any) => void }) => ({
+        shown: state.shown,
+        onClose: () => {
+            setState({shown: false})
+        },
+        component: <div>Hello!</div>
     })
 }
