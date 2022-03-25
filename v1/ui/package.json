@@ -1,0 +1,23 @@
+{
+  "name": "cert-manager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "peerDeependencies": {
+    "react": "^16.9.0"
+  },
+  "scripts": {
+    "build": "webpack --config ./webpack.config.js && tar -C dist -cvf dist/extension.tar resources"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.0",
+    "raw-loader": "^4.0.2",
+    "react": "^16.9.0",
+    "ts-loader": "8.2.0"
+  },
+  "dependencies": {
+    "typescript": "^4.4.3",
+    "webpack": "^4.7.2",
+    "webpack-cli": "^4.7.2"
+  }
+}

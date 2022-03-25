@@ -1,15 +1,16 @@
 const path = require('path');
 
+const groupKind = 'cert-manager.io/Certificate';
 
 const config = {
   entry: {
     extension: './src/index.tsx',
   },
   output: {
-    filename: 'extension.js',
-    path: __dirname + `/dist`,
+    filename: 'extensions.js',
+    path: __dirname + `/dist/resources/${groupKind}/ui`,
     libraryTarget: 'window',
-    library: ['extensions', 'items', 'hello' ],
+    library: ['extensions', 'resources', groupKind],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.ttf'],

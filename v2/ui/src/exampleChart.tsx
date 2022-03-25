@@ -18,7 +18,7 @@ export type BarsProps = {
     events?: boolean;
 };
 
-export default function Example({ width, height, events = false }: BarsProps) {
+export default function ExampleChart({ width, height, events = false }: BarsProps) {
     // bounds
     const xMax = width;
     const yMax = height - verticalMargin;
