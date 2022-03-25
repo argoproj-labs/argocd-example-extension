@@ -1,65 +1,50 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-
 import ExampleChart from "./exampleChart";
 
-const HelloButton = () => {
-    return <>Open hello chart</>
-}
-
-
-const HelloPanel = ({name}: { name: string }) => {
-    const [status, setStatus] = useState<string>();
-
-    useEffect(() => {
-        fetch("/api/extensions/hello")
-            .then(() => setStatus('Success'))
-            .catch(e => setStatus(e))
-    }, [])
-
-    return <div><h1>{name} {status}</h1>
-        <ExampleChart width={1024} height={640}/>
-    </div>
-}
 
 type Metadata = { name: string };
-type Application = { metadata: Metadata };
-type Resource = { metadata: Metadata };
 
 export const helloButton = {
     type: 'appToolbar',
-    factory: ({state, setState}: { state: any, setState: (value: any) => void }) => ({
+    factory: ({setState}: { setState: (value: any) => void }) => ({
         iconClassName: 'fa fa-chart-line',
-        title: <HelloButton/>,
-        action: () => setState({shown: true})
+        title: <>Open chart</>,
+        action: () => setState({isShown: true})
     })
 }
 
+const HelloPanel = ({application}: { application: any }) => {
+    const [message, setMessage] = useState<string>();
+
+    useEffect(() => {
+        fetch("/api/extensions/example")
+            .then(r => r.json())
+            .then(r => setMessage(r.message))
+            .catch(e => setMessage(e))
+    }, [])
+
+    return <div><h1>{application.metadata.name} </h1>
+        <h2>API says "{message}"</h2>
+        <ExampleChart width={1024} height={640}/>
+    </div>
+}
 export const helloPanel = {
     type: 'appPanel',
-    factory: ({
-                  state,
-                  setState,
-                  application
-              }: { state: any, setState: (value: any) => void, application: Application }) => ({
-        shown: state.shown,
-        onClose: () => {
-            setState({shown: false})
-        },
-        component: <HelloPanel name={application.metadata.name}/>
+    factory: ({state, setState}: { state: any, setState: (value: any) => void }) => ({
+        isShown: state.isShown,
+        onClose:  () => setState({isShown: false}),
+        component: HelloPanel
     })
 }
+
+type Resource = { metadata: Metadata };
+
+const ResourcePanel = ({resource}: { tree: any, resource: Resource }) =>
+    <div>Hello {resource.metadata.name}!</div>;
 
 export const resourcePanel = {
     type: 'resourcePanel',
-    apiVersion: 'v1',
-    kind: 'Pod',
-    factory: ({
-                  state,
-                  setState,
-                  tree,
-                  resource
-              }: { state: any, setState: (value: any) => void, tree: any, resource: Resource }) => ({
-        component: <div>Hello {resource.metadata.name}!</div>
-    })
+    factory: () => ({component: ResourcePanel})
 }
+

@@ -11,7 +11,7 @@ type response struct {
 
 func main() {
 	err := http.ListenAndServe(":3983", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Header.Get("Authorization") != "Bearer letmein" {
+		if r.Header.Get("Authorization") != "Bearer LetMeIn" {
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}
