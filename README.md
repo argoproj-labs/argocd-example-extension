@@ -34,7 +34,7 @@ Security:
 
 * An extension will be able to make HTTP requests.
 
-See [example][v2/ui].
+See [example](v2/ui).
 
 ### API Extension
 
@@ -65,4 +65,4 @@ Security:
 The server does not forward enough information to enforce role-based access controls. The service will not be able to
 know which user initiated the request.
 
-See [example][v2/api].
+See [example](d/api).
