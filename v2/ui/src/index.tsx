@@ -3,29 +3,8 @@ import {useEffect, useState} from 'react';
 import ExampleChart from "./exampleChart";
 
 
-type Metadata = { name: string };
-
-export const appToolbarButton = {
-    type: 'appToolbarButton',
-    factory: ({setState}: { setState: (value: any) => void }) => ({
-        iconClassName: 'fa fa-chart-line',
-        title: <>Charts</>,
-        action: () => setState({isShown: true})
-    })
-}
-
-const HelloPanel = ({application}: { application: any }) => {
-    const [message, setMessage] = useState<string>();
-
-    useEffect(() => {
-        fetch("/api/extensions/example")
-            .then(r => r.json())
-            .then(r => setMessage(r.message))
-            .catch(e => setMessage(e))
-    }, [])
-
+const GraphPanel = ({application}: { application: any }) => {
     return <div><h1>{application.metadata.name}</h1>
-        <h2>API says "{message}"</h2>
         <ExampleChart width={1024} height={640}/>
     </div>
 }
@@ -34,32 +13,66 @@ export const appPanel = {
     factory: ({state, setState, application}: { state: any, setState: (value: any) => void, application: any }) => ({
         isShown: state.isShown,
         onClose: () => setState({isShown: false}),
-        component: <HelloPanel application={application}/>
+        component: <GraphPanel application={application}/>
     })
 }
 
-type Resource = { metadata: Metadata };
+const OpenGraphPanelItem = ({application, onClick}: { application: any, onClick: () => void }) => {
 
-const ResourcePanel = ({tree, resource}: { tree: any, resource: Resource }) =>
-    <div>Hello {resource.metadata.name}!</div>;
+    const [memoryRequest, setMemoryRequest] = useState<number>();
 
-export const resourcePanel = {
-    type: 'resourcePanel',
-    factory: ({resource, tree}: { resource: any, tree: any }) => ({
-        component: <ResourcePanel resource={resource} tree={tree}/>
-    })
-}
+    useEffect(() => {
+        fetch(`/api/extensions/example/${application.metadata.namespace}/memory_request`)
+            .then(r => r.json())
+            .then(r => setMemoryRequest(r.timeseries[0].data[0][1]))
+            .catch(e => setMemoryRequest(e))
+    }, [])
 
-const OpenGraphPanelItem = ({onClick}: { onClick: () => void }) =>
-    <a onClick={onClick} style={{color: 'red', fontSize: "200%"}}>
-        <i className='fa fa-chart-line'/>
-        &nbsp;
-        Charts
+    const [memoryUsage, setMemoryUsage] = useState<number>();
+
+    useEffect(() => {
+        fetch(`/api/extensions/example/${application.metadata.namespace}/memory_usage`)
+            .then(r => r.json())
+            .then(r => setMemoryUsage(r.timeseries[0].data[0][1]))
+            .catch(e => setMemoryUsage(e))
+    }, [])
+
+    const [cpuRequest, setCpuRequest] = useState<number>();
+
+    useEffect(() => {
+        fetch(`/api/extensions/example/${application.metadata.namespace}/cpu_request`)
+            .then(r => r.json())
+            .then(r => setCpuRequest(r.timeseries[0].data[0][1]))
+            .catch(e => setCpuRequest(e))
+    }, [])
+
+    const [cpuUsage, setCpuUsage] = useState<number>();
+
+    useEffect(() => {
+        fetch(`/api/extensions/example/${application.metadata.namespace}/cpu_usage`)
+            .then(r => r.json())
+            .then(r => setCpuUsage(r.timeseries[0].data[0][1]))
+            .catch(e => setCpuUsage(e))
+    }, [])
+
+    return <a onClick={onClick} style={{fontSize: "100%"}}>
+        <p>cpu:
+            {(cpuUsage / 1000).toFixed(1)} /
+            {(cpuRequest / 1000).toFixed(1)}
+            ({(cpuUsage / cpuRequest * 100).toFixed(0)}%)
+        </p>
+        <p>
+            memory:
+            {(memoryUsage / 1000 / 1000 / 1000).toFixed(1)} /
+            {(memoryRequest / 1000 / 1000 / 1000).toFixed(1)} Gb
+            ({(memoryUsage / memoryRequest * 100).toFixed(0)}%)
+        </p>
     </a>;
+}
 
 export const statusPanelItem = {
     type: 'appStatusPanelItem',
-    factory: ({state, setState}: { state: any, setState: (value: any) => void }) => ({
-        component: <OpenGraphPanelItem onClick={() => setState({isShown: true})}/>
+    factory: ({state, setState, application}: { state: any, setState: (value: any) => void, application: any }) => ({
+        component: <OpenGraphPanelItem onClick={() => setState({isShown: true})} application={application}/>
     })
 }

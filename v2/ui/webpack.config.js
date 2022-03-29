@@ -7,10 +7,10 @@ const config = {
   },
   mode: 'production',
   output: {
-    filename: 'example.js',
+    filename: 'wavefront.js',
     path: __dirname + `/dist`,
     libraryTarget: 'window',
-    library: ['extensions', 'items', 'example' ],
+    library: ['extensions', 'items', 'wavefront' ],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.ttf'],
