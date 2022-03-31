@@ -1,3 +1,3 @@
 run:
-	kubectl apply -f config/example.extension-secret.yaml
+	kubectl apply -f config/wavefront.extension-secret.yaml
 	go run ./src
