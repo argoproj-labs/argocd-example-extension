@@ -1,13 +1,11 @@
 import * as React from "react";
 
 const ExampleResourcePanel = ({
-                                  state,
-                                  setState,
                                   application,
                                   node,
                                   resource,
                                   tree,
-                              }: { state: any, setState: (value: any) => void, application: any, node: any, resource?: any, tree: any, }) =>
+                              }: { application: any, node: any, resource?: any, tree: any }) =>
     <div className='white-box'>
         <p>This is an example resource panel.</p>
         <div className='row'>
@@ -28,20 +26,15 @@ const ExampleResourcePanel = ({
         </div>
     </div>;
 
-export const ResourcePanel = {
-    type: 'resourcePanel',
+export const ResourcePanel = ({
+                                  application,
+                                  resource,
+                                  node,
+                                  tree
+                              }: { application: any, resource?: any, node: any, tree: any }) => ({
     iconClassName: 'fa fa-cat',
     title: 'Example',
-    factory: ({
-                  state,
-                  setState,
-                  application,
-                  resource,
-                  node,
-                  tree
-              }: { state: any, setState: (value: any) => void, application: any, resource?: any, node: any, tree: any }) => ({
-        component: <ExampleResourcePanel state={state} setState={setState} application={application} node={node}
-                                         resource={resource}
-                                         tree={tree}/>
-    })
-}
+    component: <ExampleResourcePanel application={application} node={node}
+                                     resource={resource}
+                                     tree={tree}/>
+});
