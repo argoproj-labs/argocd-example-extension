@@ -3,7 +3,7 @@ const path = require('path');
 
 const config = {
   entry: {
-    extension: './src/index.tsx',
+    extension: './src/index.ts',
   },
   mode: 'production',
   output: {
