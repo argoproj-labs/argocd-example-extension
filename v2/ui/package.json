@@ -1,11 +1,8 @@
 {
-  "name": "exmalpe-extension",
-  "version": "1.0.0",
+  "name": "example-extension",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
-  "peerDeependencies": {
-    "react": "^16.9.0"
-  },
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "local": "yarn build && mkdir -p /tmp/extensions && mv dist/example.js /tmp/extensions/ && echo '{\"items\": [{\"name\": \"example\"}]}' > /tmp/extensions/index.json"
@@ -14,12 +11,11 @@
     "@types/react": "^16.9.0",
     "raw-loader": "^4.0.2",
     "react": "^16.9.0",
-    "style-loader": "2",
-    "ts-loader": "8.2.0",
+    "style-loader": "^2",
+    "ts-loader": "^8.2.0",
+    "typescript": "^4.4.3",
+    "webpack": "^4.7.2",
     "webpack-cli": "^4.7.2"
   },
-  "dependencies": {
-    "typescript": "^4.4.3",
-    "webpack": "^4.7.2"
-  }
+  "dependencies": {}
 }
