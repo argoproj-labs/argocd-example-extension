@@ -36,6 +36,10 @@ func main() {
 
 		namespace, query := parts[4], parts[5]
 
+		if v, ok := os.LookupEnv("NAMESPACE"); ok {
+			namespace = v
+		}
+
 		log.Printf("%s,%s\n", namespace, query)
 
 		queryString := map[string]string{

@@ -10,6 +10,7 @@
     "build": "webpack --config ./webpack.config.js"
   },
   "devDependencies": {
+    "@types/d3-array": "^3.0.2",
     "@types/react": "^16.9.0",
     "raw-loader": "^4.0.2",
     "react": "^16.9.0",
@@ -18,6 +19,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "@visx/annotation": "^2.9.0",
     "@visx/gradient": "^2.1.0",
     "@visx/group": "^2.1.0",
     "@visx/mock-data": "^2.1.2",
