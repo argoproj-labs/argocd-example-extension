@@ -12,12 +12,13 @@ type response struct {
 
 func main() {
 	err := http.ListenAndServe(":3983", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("claims-sub=%s\n", r.Header.Get("claims-sub"))
 		if r.Header.Get("Authorization") != "Bearer LetMeIn" {
-			w.WriteHeader(http.StatusForbidden)
+			http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
 			return
 		}
+		log.Printf("claims-sub=%s\n", r.Header.Get("claims-sub"))
 		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "text/json; charset=utf-8")
 		_ = json.NewEncoder(w).Encode(response{Message: "Hello!"})
 	}))
 	if err != nil {
