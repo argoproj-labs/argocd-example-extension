@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-extension
+spec:
+  selector:
+    matchLabels:
+      app: example-extension
+  template:
+    metadata:
+      labels:
+        app: example-extension
+    spec:
+      containers:
+        - name: main
+          image: example-extension:v1
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64M
+            limits:
+              cpu: 100m
+              memory: 256M
+          ports:
+            - containerPort: 3983
